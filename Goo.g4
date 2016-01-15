@@ -512,28 +512,151 @@ RSQ:        ']' ;
 RBRACE:     '}' ;
 SEMI:       ';' ;
 
+/*
+ * identifier = letter { letter | unicode_digit }
+ */
 Identifier
-        :   [a-zA-Z]+  // 'REPLACE ME 1'
+        :   Letter ( Letter | DecDigit )*
         ;
 
+fragment
+Letter
+        :   [a-zA-Z_]
+        ;
+
+fragment
+DecDigit
+        :   [0-9]
+        ;
+
+/*
+ * imaginary_lit = (decimals | float_lit) "i"
+ */
 ImaginaryLit
-        :   'REPLACE ME 2'
+        :   Decimal | FloatLit 'i'
         ;
 
+fragment
+Decimal
+        :   DecDigit+
+        ;
+/*
+ * int_lit = decimal_lit | octal_lit | hex_lit
+ *      decimal_lit = ( "1" ... "9" ) { decimal_digit }
+ *      octal_lit = "0" { octal_digit }
+ *      hex_lit = "0" ( "x" | "X" ) hex_digit { hex_digit }
+ */
 IntLit
-        :   'REPLACE ME 3'
+        :   DecimalLit | OctalLit | HexLit
         ;
 
-FloatLit
-        :   'REPLACE ME 4'
+fragment
+DecimalLit
+        :   [1-9] DecDigit*
         ;
+
+fragment
+OctalLit
+        :   '0' OctalDigit*
+        ;
+
+fragment
+OctalDigit
+        :   [0-7]
+        ;
+
+fragment
+HexLit
+        :   '0' [xX] HexDigit+
+        ;
+
+fragment
+HexDigit
+        :   [0-9A-Fa-f]
+        ;
+
+/*
+ * float_lit = decimals "." [ decimals ] [ exponent ]
+             | decimals exponent
+             | "." decimals [ exponent ]
+ */
+FloatLit
+        :   Decimal '.' Decimal? Exponent?
+        |   Decimal Exponent
+        |   '.' Decimal Exponent?
+        ;
+
+fragment
+Exponent
+        :   [eE] [+-]? Decimal
+        ;
+
+/*
+ * string_lit = raw_string_lit | interpreted_string_lit
+ *      raw_string_lit = "'" { unicode_char | newline } "'"
+ *      interpreted_string_lit = '"' { unicode_value | byte_value } '"'
+ */
 
 StringLit
-        :   '\"' // REPLACE ME 5
+        :   RawStringLit | InterpretedStringLit
         ;
 
+fragment
+RawStringLit
+        :   '`' ( UnicodeChar | NL ) '`'
+        ;
+
+fragment
+UnicodeChar
+        :   ~('\n')
+        ;
+
+fragment
+SmallUnicodeChar
+        :   '\\' 'U' HexDigit HexDigit HexDigit HexDigit
+        ;
+
+fragment
+BigUnicodeChar
+        :   '\\' 'U' HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit HexDigit
+        ;
+
+fragment
+InterpretedStringLit
+        :   '"' (UnicodeValue | ByteValue)* '"'
+        ;
+
+fragment
+UnicodeValue
+        :   UnicodeChar | SmallUnicodeChar | BigUnicodeChar | EscapedChar
+        ;
+
+fragment
+EscapedChar
+        :   '\\' [abfnrtv\\\'"]
+        ;
+
+fragment
+ByteValue
+        :   OctalByteVal | HexByteVal
+        ;
+
+fragment
+OctalByteVal
+        :   '\\' OctalDigit OctalDigit OctalDigit
+        ;
+
+fragment
+HexByteVal
+        :   '\\x' HexDigit HexDigit
+        ;
+
+/*
+ * rune_lit = "'" ( unicode_value | byte_value ) "'"
+ */
+
 RuneLit
-        :   '\''  // REPLACE ME 6
+        :   '\'' (UnicodeValue | ByteValue) '\''
         ;
 
 // This rule is copied from the Antlr4 grammar for Java8
