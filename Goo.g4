@@ -603,7 +603,7 @@ StringLit
 
 fragment
 RawStringLit
-        :   '`' ( UnicodeChar | NL ) '`'
+        :   '`' ( UnicodeChar | NL )* '`'
         ;
 
 fragment
@@ -613,7 +613,7 @@ UnicodeChar
 
 fragment
 SmallUnicodeChar
-        :   '\\' 'U' HexDigit HexDigit HexDigit HexDigit
+        :   '\\' 'u' HexDigit HexDigit HexDigit HexDigit
         ;
 
 fragment
