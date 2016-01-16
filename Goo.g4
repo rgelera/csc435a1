@@ -344,7 +344,13 @@ value
         ;
 
 primaryExpr
-        :   'EXPAND ME TO ONE OR MORE RULES 1'
+        :   operand
+        |   conversion
+        |   primaryExpr selector
+        |   primaryExpr index
+        |   primaryExpr slice
+        |   primaryExpr typeAssertion
+        |   primaryExpr arguments
         ;
 
 selector
@@ -372,11 +378,57 @@ arguments
         ;
 
 expression
-        :   'EXPAND ME TO ONE OR MORE RULES 2'
+        :   unaryExpr
+        |   expression binary_op expression
         ;
 
 unaryExpr
-        :   'EXPAND ME TO ONE OR MORE RULES 3'
+        :   primaryExpr
+        |   unary_op unaryExpr
+        ;
+
+// Operations for expressions
+binary_op
+        :   '||'
+        |   '&&'
+        |   rel_op
+        |   add_op
+        |   mul_op
+        ;
+
+rel_op
+        :   '=='
+        |   '!='
+        |   '<'
+        |   '<='
+        |   '>'
+        |   '>='
+        ;
+
+add_op
+        :   '+'
+        |   '-'
+        |   '|'
+        |   '^'
+        ;
+
+mul_op
+        :   '*'
+        |   '/'
+        |   '%'
+        |   '<<'
+        |   '>>'
+        |   '&'
+        |   '&^'
+        ;
+
+unary_op
+        :   '+'
+        |   '-'
+        |   '!'
+        |   '^'
+        |   '*'
+        |   '&'
         ;
 
 conversion
@@ -384,14 +436,59 @@ conversion
         ;
 
 statement
-        :   'EXPAND ME TO ONE OR MORE RULES 4'
+        :   declaration
+        |   labeledStmt
+        |   simpleStmt
+        |   goStmt
+        |   returnStmt
+        |   breakStmt
+        |   continueStmt
+        |   gotoStmt
+        |   block
+        |   ifStmt
+        |   forStmt
         ;
 
 simpleStmt
-        :   'EXPAND ME TO ONE OR MORE RULES 5'
+        :   emptyStmt
+        |   expressionStmt
+        |   incDecStmt
+        |   assignment
+        |   shortVarDecl
         ;
 
 // there's a lot of missing stuff here
+emptyStmt
+        :   // empty (duh!)
+        ;
+
+labeledStmt
+        :   label ':' statement
+        ;
+
+label
+        :   Identifier
+        ;
+
+expressionStmt
+        :   expression
+        ;
+
+incDecStmt
+        :   expression ( PLUSPLUS | MINUSMINUS )
+        ;
+
+assignment
+        :   expressionList assign_op expressionList
+        ;
+
+assign_op
+        :   ( add_op | mul_op )+ '='
+        ;
+
+ifStmt
+        :   IF ( simpleStmt SEMI )? expression block ( ELSE ( ifStmt | block ))?
+        ;
 
 forStmt
         :   FOR condition block
@@ -420,7 +517,25 @@ rangeClause
         |   identifierList ':=' RANGE expression
         ;
 
-// A lot more stuff is missing here
+goStmt
+        :   GO expression
+        ;
+
+returnStmt
+        :   RETURN expressionList?
+        ;
+
+breakStmt
+        :   BREAK label?
+        ;
+
+continueStmt
+        :   CONTINUE label?
+        ;
+
+gotoStmt
+        :   GOTO label
+        ;
 
 // the goal symbol of this grammar
 sourceFile
