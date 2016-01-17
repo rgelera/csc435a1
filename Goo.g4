@@ -483,7 +483,7 @@ assignment
         ;
 
 assign_op
-        :   ( add_op | mul_op )+ '='
+        :   ( add_op | mul_op )? '='
         ;
 
 ifStmt
