@@ -130,7 +130,7 @@ structType
 
 fieldDeclList
         :       // empty
-        |   fieldDeclList fieldDecl ';'
+        |   fieldDeclList fieldDecl SEMI
         ;
 
 fieldDecl
@@ -457,7 +457,6 @@ simpleStmt
         |   shortVarDecl
         ;
 
-// there's a lot of missing stuff here
 emptyStmt
         :   // empty (duh!)
         ;
@@ -552,7 +551,7 @@ packageName
 
 importDeclList
         :       // empty
-        |   importDeclList importDecl ';'
+        |   importDeclList importDecl SEMI
         ;
 
 importDecl
@@ -562,7 +561,7 @@ importDecl
 
 importSpecList
         :       // empty
-        |   importSpecList importSpec ';'
+        |   importSpecList importSpec SEMI
         ;
 
 importSpec
@@ -648,13 +647,14 @@ DecDigit
  * imaginary_lit = (decimals | float_lit) "i"
  */
 ImaginaryLit
-        :   Decimal | FloatLit 'i'
+        :   ( Decimal | FloatLit )'i'
         ;
 
 fragment
 Decimal
         :   DecDigit+
         ;
+
 /*
  * int_lit = decimal_lit | octal_lit | hex_lit
  *      decimal_lit = ( "1" ... "9" ) { decimal_digit }
@@ -738,7 +738,7 @@ BigUnicodeChar
 
 fragment
 InterpretedStringLit
-        :   '"' (UnicodeValue | ByteValue)* '"'
+        :   '"' ( UnicodeValue | ByteValue )* '"'
         ;
 
 fragment
@@ -771,7 +771,7 @@ HexByteVal
  */
 
 RuneLit
-        :   '\'' (UnicodeValue | ByteValue) '\''
+        :   '\'' ( UnicodeValue | ByteValue ) '\''
         ;
 
 // This rule is copied from the Antlr4 grammar for Java8
