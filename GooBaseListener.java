@@ -747,18 +747,6 @@ public class GooBaseListener implements GooListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBinary_op(GooParser.Binary_opContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBinary_op(GooParser.Binary_opContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterRel_op(GooParser.Rel_opContext ctx) { }
 	/**
 	 * {@inheritDoc}

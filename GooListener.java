@@ -617,16 +617,6 @@ public interface GooListener extends ParseTreeListener {
 	 */
 	void exitUnaryExpr(GooParser.UnaryExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link GooParser#binary_op}.
-	 * @param ctx the parse tree
-	 */
-	void enterBinary_op(GooParser.Binary_opContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link GooParser#binary_op}.
-	 * @param ctx the parse tree
-	 */
-	void exitBinary_op(GooParser.Binary_opContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link GooParser#rel_op}.
 	 * @param ctx the parse tree
 	 */

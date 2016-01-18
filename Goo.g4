@@ -376,10 +376,19 @@ arguments
         |   '(' type ','? ')'
         |   '(' type ',' expressionList ','? ')'
         ;
-
+/*
 expression
         :   unaryExpr
         |   expression binary_op expression
+        ;*/
+
+expression
+        :   unaryExpr
+        |   expression mul_op expression
+        |   expression add_op expression
+        |   expression rel_op expression
+        |   expression '&&' expression
+        |   expression '||' expression
         ;
 
 unaryExpr
@@ -388,6 +397,7 @@ unaryExpr
         ;
 
 // Operations for expressions
+/*
 binary_op
         :   '||'
         |   '&&'
@@ -395,7 +405,7 @@ binary_op
         |   add_op
         |   mul_op
         ;
-
+*/
 rel_op
         :   '=='
         |   '!='
@@ -647,7 +657,7 @@ DecDigit
  * imaginary_lit = (decimals | float_lit) "i"
  */
 ImaginaryLit
-        :   ( Decimal | FloatLit )'i'
+        :   ( Decimal | FloatLit ) 'i'
         ;
 
 fragment
