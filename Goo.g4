@@ -677,7 +677,7 @@ UnicodeLetter
         ;
 */
 
-// Credit to https://github.com/GRosenberg/grammars-v4/blob/master/antlr4/LexUnicode.g4
+// Credit to https://github.com/GRosenberg/grammars-v4/blob/master/antlr4/LexUnicode.g4 for unicode classes
 
 fragment UnicodeLetter
     : UnicodeClass_LU
@@ -1238,7 +1238,7 @@ fragment UnicodeClass_LO
     | '\uffd2'..'\uffd7'
     | '\uffda'..'\uffdc'
     ;
-    
+
 fragment
 UnicodeDigit
         :   [\u0030-\u0039]

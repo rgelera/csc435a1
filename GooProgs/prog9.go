@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	sum := 1
+	αβ := 1
 	for sum < 1000 {
 		sum += sum
 	}
